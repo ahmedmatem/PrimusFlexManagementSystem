@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using PrimusFlex.WebServices.Providers;
 using PrimusFlex.WebServices.Models;
+using PrimusFlex.Data;
 
 namespace PrimusFlex.WebServices
 {
