@@ -207,7 +207,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\StorageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -286,6 +286,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\PrimusFlex.Data.Common\PrimusFlex.Data.Common.csproj">
+      <Project>{EFFDF453-BE91-4716-9FBB-E0D1C1599617}</Project>
+      <Name>PrimusFlex.Data.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\PrimusFlex.Data.Models\PrimusFlex.Data.Models.csproj">
       <Project>{2df38dfb-e6b7-4f38-8e28-683bbee7b3ad}</Project>
       <Name>PrimusFlex.Data.Models</Name>

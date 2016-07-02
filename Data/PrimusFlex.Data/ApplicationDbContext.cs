@@ -16,6 +16,8 @@
         {
         }
 
+        public IDbSet<PictureInfo> PicturesInfo { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

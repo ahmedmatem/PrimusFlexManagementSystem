@@ -9,6 +9,7 @@ namespace PrimusFlex.Data.Migrations
     {
         public Configuration()
         {
+            // TODO: turn Off AutomaticMigrationDataLossAllowed in release mode
             this.AutomaticMigrationsEnabled = true;
             this.AutomaticMigrationDataLossAllowed = true;
         }

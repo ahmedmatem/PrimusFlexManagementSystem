@@ -12,11 +12,14 @@
 
     using PrimusFlex.Data;
     using PrimusFlex.Data.Migrations;
-
+    using System.Reflection;
     public class WebApiApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
         {
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new RazorViewEngine());
+
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
