@@ -18,6 +18,10 @@
 
         public IDbSet<PictureInfo> PicturesInfo { get; set; }
 
+        public IDbSet<Phone> Phones { get; set; }
+
+        public IDbSet<DataForToken> DataForToken { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
