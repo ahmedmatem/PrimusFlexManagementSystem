@@ -20,7 +20,8 @@
     using PrimusFlex.WebServices.Models;
     using PrimusFlex.WebServices.Providers;
     using PrimusFlex.WebServices.Results;
-    using PrimusFlex.Data.Models;
+    using Data.Models;
+
 
 
     [Authorize]

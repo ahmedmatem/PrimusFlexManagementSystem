@@ -1,49 +1,55 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using PrimusFlex.Data;
-using PrimusFlex.Data.Common;
-using PrimusFlex.Data.Models;
-using PrimusFlex.WebServices.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-
-namespace PrimusFlex.WebServices.Controllers
+﻿namespace PrimusFlex.WebServices.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
+
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.AspNet.Identity;
+
+    using Newtonsoft.Json;
+
+    using Data;
+    using Data.Common;
+    using Data.Models;
+    using Common;
+    using Models;
+    using Web.Infrastructure.Helpers;
+
     [Authorize]
     [RoutePrefix("api/Storage")]
     public class StorageController : ApiController
     {
         protected ApplicationDbContext context = new ApplicationDbContext();
-        protected IDbRepository<PictureInfo> picturesInfo;
+        protected IDbRepository<Image> image;
 
         public StorageController()
         {
-            this.picturesInfo = new DbRepository<PictureInfo>(context);
+            this.image = new DbRepository<Image>(context);
         }
 
-        // GET api/storage/pictureInfo
-        [Route("pictureInfo")]
-        [HttpGet]
-        public HttpResponseMessage GetPicturesInfo()
-        {
-            //Parse the connection string and return a reference to the storage account.
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=primusflex;AccountKey=1N+U65eUzC1GpNNuJ9JnMBsziPti12Nopj5WDUHGzDVJJFB2UHkC8boSkZ3li97yQ/qAZ22Ub+Mm2Xtw7diKNw==");
+        /// <summary>
+        /// Retrieve information about the images in the storage
+        /// </summary>
+        /// <returns></returns>
 
+        // GET api/storage/images
+        [Route("images")]
+        [HttpGet]
+        public HttpResponseMessage GetAllImages()
+        {
+            CloudStorageAccount storageAccount = StorageHelpers.StorageAccount();
+            
             //Create the blob client object.
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 
             //Get a reference to a container to use for the sample code, and create it if it does not exist.
             CloudBlobContainer container = blobClient.GetContainerReference(Constant.IMAGE_STORAGE_CONTAINER_NAME);
-
-            // Use the shared access signature (SAS) to perform container operations
-            string sas = StorageHelpers.GetContainerSasUri(container);
-
+            
             //Create a list to store blob URIs returned by a listing operation on the container.
             List<ICloudBlob> blobList = new List<ICloudBlob>();
 
@@ -67,20 +73,38 @@ namespace PrimusFlex.WebServices.Controllers
             return "value";
         }
 
-        // POST api/storage/pictureinfo
-        [Route("pictureInfo")]
+        /// <summary>
+        /// Save information about image in the storage
+        /// </summary>
+        /// <param name="model">Contains information about the image</param>
+
+        // POST api/storage/saveimage
+        [Route("saveimage")]
         [HttpPost]
-        public void SavePictureInfo(PictureInfo model)
+        public HttpResponseMessage SaveImage(KitchenImageModel model)
         {
-            var pictureInfo = new PictureInfo()
+            if (!ModelState.IsValid)
             {
-                SiteName = model.SiteName,
-                PlotNumber = model.PlotNumber,
-                PictureName = model.PictureName
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Image model is not valid!");
+            }
+
+            var newImage = new Image()
+            {
+                Kitchen = new Kitchen
+                {
+                    SiteName = model.SiteName,
+                    PlotNumber = model.PlotNumber,
+                    Model = model.KitchenModel,
+                },
+                Name = model.ImageName,
+                Uri = model.Uri,
+                OwnerId = User.Identity.GetUserId()
             };
 
-            this.picturesInfo.Add(pictureInfo);
-            this.picturesInfo.Save();
+            this.image.Add(newImage);
+            this.image.Save();
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // PUT api/values/5

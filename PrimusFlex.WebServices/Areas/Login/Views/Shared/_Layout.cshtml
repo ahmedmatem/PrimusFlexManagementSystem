@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-    
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +23,6 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
                 </ul>
 
                 <ul class="nav navbar-nav pull-right">
@@ -37,7 +36,6 @@
                         <li><a href="@Url.Content("~/login")" id="signin"><i class="fa fa-sign-in"></i> Sign in</a></li>
                     }
                 </ul>
-
             </div>
         </div>
     </div>
@@ -57,7 +55,7 @@
         $(document).ready(function () {
             $("#signin").click(function (e) {
                 e.preventDefault;
-
+                
                 var returnUrl = window.location.href;
                 var href = $(this).attr("href");
                 $(this).attr("href", href + "?returnUrl=" + returnUrl);

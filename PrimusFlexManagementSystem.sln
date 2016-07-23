@@ -5,14 +5,6 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimusFlex.WebServices", "PrimusFlex.WebServices\PrimusFlex.WebServices.csproj", "{FBD0E734-060C-4639-9A4A-495E3C0C578B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{C8BAC436-B4A5-4BF4-ACEF-EC57D995CED5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimusFlex.Data.Models", "Data\PrimusFlex.Data.Models\PrimusFlex.Data.Models.csproj", "{2DF38DFB-E6B7-4F38-8E28-683BBEE7B3AD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimusFlex.Data", "Data\PrimusFlex.Data\PrimusFlex.Data.csproj", "{03A0C5CA-374C-4590-9BCA-46E20FE1BB53}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimusFlex.Data.Common", "Data\PrimusFlex.Data.Common\PrimusFlex.Data.Common.csproj", "{EFFDF453-BE91-4716-9FBB-E0D1C1599617}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,25 +15,8 @@ Global
 		{FBD0E734-060C-4639-9A4A-495E3C0C578B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD0E734-060C-4639-9A4A-495E3C0C578B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD0E734-060C-4639-9A4A-495E3C0C578B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2DF38DFB-E6B7-4F38-8E28-683BBEE7B3AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2DF38DFB-E6B7-4F38-8E28-683BBEE7B3AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2DF38DFB-E6B7-4F38-8E28-683BBEE7B3AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2DF38DFB-E6B7-4F38-8E28-683BBEE7B3AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03A0C5CA-374C-4590-9BCA-46E20FE1BB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03A0C5CA-374C-4590-9BCA-46E20FE1BB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03A0C5CA-374C-4590-9BCA-46E20FE1BB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03A0C5CA-374C-4590-9BCA-46E20FE1BB53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EFFDF453-BE91-4716-9FBB-E0D1C1599617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EFFDF453-BE91-4716-9FBB-E0D1C1599617}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EFFDF453-BE91-4716-9FBB-E0D1C1599617}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EFFDF453-BE91-4716-9FBB-E0D1C1599617}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{2DF38DFB-E6B7-4F38-8E28-683BBEE7B3AD} = {C8BAC436-B4A5-4BF4-ACEF-EC57D995CED5}
-		{03A0C5CA-374C-4590-9BCA-46E20FE1BB53} = {C8BAC436-B4A5-4BF4-ACEF-EC57D995CED5}
-		{EFFDF453-BE91-4716-9FBB-E0D1C1599617} = {C8BAC436-B4A5-4BF4-ACEF-EC57D995CED5}
 	EndGlobalSection
 EndGlobal
