@@ -20,19 +20,20 @@
     using Common;
     using Models;
     using Data.Models;
-
+    using Web.Infrastructure.Helpers;
     [Authorize]
     [RoutePrefix("api/login")]
     public class LoginController : ApiController
     {
         protected ApplicationDbContext context = new ApplicationDbContext();
+
         protected IDbRepository<Phone> phones;
-        //protected IDbRepository<DataForToken> dataForToken;
+        protected IDbRepository<TokenArgument> tokenArguments;
 
         public LoginController()
         {
             this.phones = new DbRepository<Phone>(context);
-            //this.dataForToken = new DbRepository<DataForToken>(context);
+            this.tokenArguments = new DbRepository<TokenArgument>(context);
         }
 
         // POST api/login/savephone
@@ -73,25 +74,27 @@
         //    return Request.CreateResponse(HttpStatusCode.OK, new { message = "Invalid IMEI number. Logout unsuccessful." });
         //}
 
-        //// GEt api/login/byImei?imei=xxxx
-        //[Route("byimei")]
-        //[AllowAnonymous]
-        //[HttpGet]
-        //public async Task<HttpResponseMessage> LoginByIMEIAsync(string imei)
-        //{
-        //    bool imeiExist = this.phones.All().Any(p => p.IMEI == imei);
+        // GEt api/login/byImei?imei=xxxx
 
-        //    if (imeiExist)
-        //    {
-        //        var dataForToken = this.dataForToken.All().FirstOrDefault();
+        [AllowAnonymous]
+        [Route("byimei")]
+        [HttpGet]
+        public async Task<HttpResponseMessage> LoginByIMEIAsync(string imei)
+        {
+            bool imeiExist = this.phones.All().Any(p => p.Imei == imei);
 
-        //        string token = await RequestHelper.GetTokenAsync(dataForToken.UserName, dataForToken.Password);
-        //        return Request.CreateResponse(HttpStatusCode.OK, new { access_token = token });
-        //    }
+            if (imeiExist)
+            {
+                var tokenArgument = this.tokenArguments.All().FirstOrDefault();
+                var uri = Request.IsLocal() ? Constant.LOCAL_TOKEN_URI : Constant.REMOTE_TOKEN_URI;
+                string token = await RequestHelpers.GetTokenAsync(tokenArgument.UserName, tokenArgument.Password, uri);
 
-        //    return Request.CreateResponse(HttpStatusCode.NoContent);
+                return Request.CreateResponse(HttpStatusCode.OK, new { access_token = token });
+            }
 
-        //}
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+
+        }
     }
 }
 
