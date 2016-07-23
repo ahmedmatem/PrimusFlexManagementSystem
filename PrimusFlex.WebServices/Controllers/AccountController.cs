@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Http;
+    using System.Linq;
     using System.Web.Http.ModelBinding;
 
     using Microsoft.AspNet.Identity;
@@ -21,8 +22,8 @@
     using PrimusFlex.WebServices.Providers;
     using PrimusFlex.WebServices.Results;
     using Data.Models;
-
-
+    using Data.Common;
+    using Data;
 
     [Authorize]
     [RoutePrefix("api/Account")]
@@ -30,6 +31,7 @@
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
+        private IDbRepository<StorageAccount> storageAccount = new DbRepository<StorageAccount>(ApplicationDbContext.Create());
 
         public AccountController()
         {
@@ -69,6 +71,19 @@
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
+        }
+
+        // GET api/Account/storageAccountPair
+        [Route("storageAccountPair")]
+        public Dictionary<string, string> GetStorageAccountPair()
+        {
+            var storageAccountPair = new Dictionary<string, string>();
+            var sap = this.storageAccount.All().FirstOrDefault();
+
+            storageAccountPair.Add("AccountName", sap.AccountName);
+            storageAccountPair.Add("AccountKey", sap.AccountKey);
+
+            return storageAccountPair;
         }
 
         // POST api/Account/Logout

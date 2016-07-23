@@ -58,24 +58,23 @@
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        //// DELETE api/login/logout?imei=xxxx
-        //[Route("logout")]
-        //public HttpResponseMessage Delete(string imei)
-        //{
-        //    var phone = this.phones.All().FirstOrDefault(p => p.IMEI == imei);
-        //    if (phone != null)
-        //    {
-        //        this.phones.HardDelete(phone);
-        //        this.phones.Save();
+        // DELETE api/login/remove?imei=xxxx
+        [Route("remove")]
+        public HttpResponseMessage Remove(string imei)
+        {
+            var phone = this.phones.All().FirstOrDefault(p => p.Imei == imei);
+            if (phone != null)
+            {
+                this.phones.HardDelete(phone);
+                this.phones.Save();
 
-        //        return Request.CreateResponse(HttpStatusCode.OK, new { message = "You was loged out successfully." });
-        //    }
+                return Request.CreateResponse(HttpStatusCode.OK, new { message = "You removed imei login successfully." });
+            }
 
-        //    return Request.CreateResponse(HttpStatusCode.OK, new { message = "Invalid IMEI number. Logout unsuccessful." });
-        //}
+            return Request.CreateResponse(HttpStatusCode.OK, new { message = "Invalid IMEI number. Yhe operation was unsuccessful." });
+        }
 
         // GEt api/login/byImei?imei=xxxx
-
         [AllowAnonymous]
         [Route("byimei")]
         [HttpGet]
