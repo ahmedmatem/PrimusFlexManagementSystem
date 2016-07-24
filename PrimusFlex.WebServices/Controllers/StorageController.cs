@@ -19,17 +19,19 @@
     using Common;
     using Models;
     using Web.Infrastructure.Helpers;
-
+    using Data.Models.Types;
     [Authorize]
     [RoutePrefix("api/Storage")]
     public class StorageController : ApiController
     {
         protected ApplicationDbContext context = new ApplicationDbContext();
         protected IDbRepository<Image> image;
+        protected IDbRepository<Kitchen> kitchen;
 
         public StorageController()
         {
             this.image = new DbRepository<Image>(context);
+            this.kitchen = new DbRepository<Kitchen>(context);
         }
 
         /// <summary>
@@ -88,17 +90,27 @@
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Image model is not valid!");
             }
 
-            var newImage = new Image()
+
+            var kitchenExists = this.kitchen.All().FirstOrDefault(k => k.SiteName == model.SiteName && k.PlotNumber == model.PlotNumber);
+
+            Kitchen newKitchen = new Kitchen();
+            if (kitchenExists == null)
             {
-                Kitchen = new Kitchen
+                newKitchen = new Kitchen
                 {
                     SiteName = model.SiteName,
                     PlotNumber = model.PlotNumber,
-                    Model = model.KitchenModel,
-                },
+                    Model = (KitchenModel)Enum.Parse(typeof(KitchenModel), model.KitchenModel, true),
+                };
+                this.kitchen.Add(newKitchen);
+            }       
+
+            var newImage = new Image()
+            {
+                KitchenId = kitchenExists == null ? newKitchen.Id : kitchenExists.Id,
+                OwnerId = User.Identity.GetUserId(),
                 Name = model.ImageName,
-                Uri = model.Uri,
-                OwnerId = User.Identity.GetUserId()
+                Uri = Constant.STORAGE_URI + Constant.IMAGE_STORAGE_CONTAINER_NAME + "/" + model.ImageName,
             };
 
             this.image.Add(newImage);

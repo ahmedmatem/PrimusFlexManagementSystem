@@ -81,7 +81,7 @@
     </Reference>
     <Reference Include="PrimusFlex.Data.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\PrimusFlex\Data\PrimusFlex.Data.Models\bin\Debug\PrimusFlex.Data.Models.dll</HintPath>
+      <HintPath>..\..\PrimusFlex\Data\PrimusFlex.Data\bin\Debug\PrimusFlex.Data.Models.dll</HintPath>
     </Reference>
     <Reference Include="PrimusFlex.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

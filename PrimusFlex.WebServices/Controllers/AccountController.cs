@@ -24,7 +24,7 @@
     using Data.Models;
     using Data.Common;
     using Data;
-
+    using System.Net;
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
@@ -75,15 +75,20 @@
 
         // GET api/Account/storageAccountPair
         [Route("storageAccountPair")]
-        public Dictionary<string, string> GetStorageAccountPair()
+        public HttpResponseMessage GetStorageAccountPair()
         {
             var storageAccountPair = new Dictionary<string, string>();
             var sap = this.storageAccount.All().FirstOrDefault();
 
-            storageAccountPair.Add("AccountName", sap.AccountName);
-            storageAccountPair.Add("AccountKey", sap.AccountKey);
+            if (sap != null)
+            {
+                storageAccountPair.Add("AccountName", sap.AccountName);
+                storageAccountPair.Add("AccountKey", sap.AccountKey);
 
-            return storageAccountPair;
+                return Request.CreateResponse(HttpStatusCode.OK, storageAccountPair);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
         // POST api/Account/Logout

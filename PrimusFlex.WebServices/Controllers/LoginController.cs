@@ -28,12 +28,10 @@
         protected ApplicationDbContext context = new ApplicationDbContext();
 
         protected IDbRepository<Phone> phones;
-        protected IDbRepository<TokenArgument> tokenArguments;
 
         public LoginController()
         {
             this.phones = new DbRepository<Phone>(context);
-            this.tokenArguments = new DbRepository<TokenArgument>(context);
         }
 
         // POST api/login/savephone
@@ -49,6 +47,7 @@
             var phone = new Phone()
             {
                 Imei = model.Imei,
+                AccessToken = model.AccessToken,
                 OwnerId = userId
             };
 
@@ -78,17 +77,13 @@
         [AllowAnonymous]
         [Route("byimei")]
         [HttpGet]
-        public async Task<HttpResponseMessage> LoginByIMEIAsync(string imei)
+        public HttpResponseMessage LoginByIMEIAsync(string imei)
         {
-            bool imeiExist = this.phones.All().Any(p => p.Imei == imei);
+            var phone = this.phones.All().FirstOrDefault(p => p.Imei == imei);
 
-            if (imeiExist)
+            if (phone != null)
             {
-                var tokenArgument = this.tokenArguments.All().FirstOrDefault();
-                var uri = Request.IsLocal() ? Constant.LOCAL_TOKEN_URI : Constant.REMOTE_TOKEN_URI;
-                string token = await RequestHelpers.GetTokenAsync(tokenArgument.UserName, tokenArgument.Password, uri);
-
-                return Request.CreateResponse(HttpStatusCode.OK, new { access_token = token });
+                return Request.CreateResponse(HttpStatusCode.OK, new { access_token = phone.AccessToken });
             }
 
             return Request.CreateResponse(HttpStatusCode.NoContent);

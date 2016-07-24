@@ -8,5 +8,7 @@
 
         public const string REMOTE_TOKEN_URI = "http://primusflexwebservices.azurewebsites.net/token";
         public const string LOCAL_TOKEN_URI = "http://localhost:52173/token";
+
+        public const string STORAGE_URI = "https://primusflex.blob.core.windows.net/";
     }
 }
