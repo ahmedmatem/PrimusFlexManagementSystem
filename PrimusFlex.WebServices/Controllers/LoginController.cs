@@ -97,7 +97,7 @@
             if (phone != null)
             {
                 var totalDays = (DateTime.Now - phone.CreatedOn).TotalDays;
-                if(totalDays > AppConfig.ACCESS_TOKEN_EXPIRE_TIME_SPAN)
+                if(totalDays - AppConfig.ACCESS_TOKEN_EXPIRE_TIME_SPAN > 1)
                 {
                     // Remove phone record, because access token is expired
                     this.phones.HardDelete(phone);
