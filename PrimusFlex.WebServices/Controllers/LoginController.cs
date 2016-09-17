@@ -57,6 +57,12 @@
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
+        /// <summary>
+        /// Remove phone record from databse with given imei parameter.
+        /// </summary>
+        /// <param name="imei"></param>
+        /// <returns></returns>
+
         // DELETE api/login/remove?imei=xxxx
         [Route("remove")]
         public HttpResponseMessage Remove(string imei)
@@ -70,19 +76,36 @@
                 return Request.CreateResponse(HttpStatusCode.OK, new { message = "You removed imei login successfully." });
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, new { message = "Invalid IMEI number. Yhe operation was unsuccessful." });
+            return Request.CreateResponse(HttpStatusCode.OK, new { message = "Invalid IMEI number. The operation was unsuccessful." });
         }
 
-        // GEt api/login/byImei?imei=xxxx
+        /// <summary>
+        /// This service is used to login by phone imei number.
+        /// </summary>
+        /// <param name="imei"></param>
+        /// <returns>NoContent if access token expired or no registered phone with given imei parameter.
+        /// Otherwise return status code OK.</returns>
+        
+        // GET api/login/byImei?imei=xxxx
         [AllowAnonymous]
         [Route("byimei")]
         [HttpGet]
-        public HttpResponseMessage LoginByIMEIAsync(string imei)
+        public HttpResponseMessage LoginByIMEI(string imei)
         {
             var phone = this.phones.All().FirstOrDefault(p => p.Imei == imei);
 
             if (phone != null)
             {
+                var totalDays = (DateTime.Now - phone.CreatedOn).TotalDays;
+                if(totalDays > AppConfig.ACCESS_TOKEN_EXPIRE_TIME_SPAN)
+                {
+                    // Remove phone record, because access token is expired
+                    this.phones.HardDelete(phone);
+                    this.phones.Save();
+
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
+                }
+
                 return Request.CreateResponse(HttpStatusCode.OK, new { access_token = phone.AccessToken });
             }
 
