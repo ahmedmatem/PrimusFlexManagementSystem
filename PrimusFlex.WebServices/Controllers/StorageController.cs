@@ -19,7 +19,7 @@
     using Common;
     using Models;
     using Web.Infrastructure.Helpers;
-    using Data.Models.Types;
+
     [Authorize]
     [RoutePrefix("api/Storage")]
     public class StorageController : ApiController
@@ -75,6 +75,36 @@
             return "value";
         }
 
+        // GET: api/storage/lastkitcheninfo
+        [Route("lastkitcheninfo")]
+        [HttpGet]
+        public HttpResponseMessage LastKitchenInfo(string userName)
+        {
+            DateTime startDateTime = DateTime.Today; //Today at 00:00:00
+            DateTime endDateTime = DateTime.Today.AddDays(1).AddTicks(-1); //Today at 23:59:59
+
+            var kitchenInfos = this.kitchen.All()
+                                .Where(k => k.UserName == userName
+                                    && k.CreatedOn >= startDateTime
+                                    && k.CreatedOn <= endDateTime)
+                                .Select(k => new KitchenImageModel()
+                                {
+                                    UserName = k.UserName,
+                                    SiteName = k.SiteName,
+                                    PlotNumber = k.PlotNumber,
+                                    KitchenModel = k.Model,
+                                    ImageNumber = k.ImageNumber,
+                                })
+                                .ToList();
+            if(kitchenInfos != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, kitchenInfos);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.NotFound);
+        }
+
+
         /// <summary>
         /// Save information about image in the storage
         /// </summary>
@@ -98,12 +128,23 @@
             {
                 newKitchen = new Kitchen
                 {
+                    UserName = model.UserName,
                     SiteName = model.SiteName,
                     PlotNumber = model.PlotNumber,
-                    Model = (KitchenModel)Enum.Parse(typeof(KitchenModel), model.KitchenModel, true),
+                    Model = model.KitchenModel,
+                    ImageNumber = 1,
                 };
+
                 this.kitchen.Add(newKitchen);
-            }       
+            }
+            else
+            {
+                kitchenExists.ImageNumber++;
+
+                this.kitchen.Update(kitchenExists);
+            }
+
+            this.kitchen.Save();
 
             var newImage = new Image()
             {

@@ -20,7 +20,7 @@
     using Common;
     using Models;
     using Data.Models;
-    using Web.Infrastructure.Helpers;
+
     [Authorize]
     [RoutePrefix("api/login")]
     public class LoginController : ApiController
@@ -43,12 +43,12 @@
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
 
-            var userId = User.Identity.GetUserId();
+            var userName = User.Identity.GetUserName();
             var phone = new Phone()
             {
                 Imei = model.Imei,
                 AccessToken = model.AccessToken,
-                OwnerId = userId
+                UserName = userName
             };
 
             this.phones.Add(phone);
@@ -86,7 +86,7 @@
         /// <returns>NoContent if access token expired or no registered phone with given imei parameter.
         /// Otherwise return status code OK.</returns>
         
-        // GET api/login/byImei?imei=xxxx
+        // GET api/login/byImei?imei
         [AllowAnonymous]
         [Route("byimei")]
         [HttpGet]
@@ -97,7 +97,7 @@
             if (phone != null)
             {
                 var totalDays = (DateTime.Now - phone.CreatedOn).TotalDays;
-                if(totalDays - AppConfig.ACCESS_TOKEN_EXPIRE_TIME_SPAN > 1)
+                if(totalDays > AppConfig.ACCESS_TOKEN_EXPIRE_TIME_SPAN)
                 {
                     // Remove phone record, because access token is expired
                     this.phones.HardDelete(phone);
@@ -106,7 +106,7 @@
                     return Request.CreateResponse(HttpStatusCode.NoContent);
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, new { access_token = phone.AccessToken });
+                return Request.CreateResponse(HttpStatusCode.OK, new { access_token = phone.AccessToken, user_name = phone.UserName });
             }
 
             return Request.CreateResponse(HttpStatusCode.NoContent);

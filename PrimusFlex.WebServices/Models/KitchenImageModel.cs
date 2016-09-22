@@ -10,15 +10,17 @@
 
     public class KitchenImageModel
     {
-        public string OwnerId { get; set; }
+        public string UserName { get; set; }
 
         public string SiteName { get; set; }
 
         public string PlotNumber { get; set; }
 
-        public string KitchenModel { get; set; }
+        public KitchenModel KitchenModel { get; set; }
 
         public string ImageName { get; set; }
+
+        public int ImageNumber { get; set; }
 
         public string Uri { get; set; }
     }

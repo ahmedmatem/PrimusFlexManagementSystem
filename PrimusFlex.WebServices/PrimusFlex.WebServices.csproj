@@ -75,16 +75,6 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PrimusFlex.Data">
-      <HintPath>..\..\PrimusFlex\Data\PrimusFlex.Data\bin\Debug\PrimusFlex.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="PrimusFlex.Data.Common">
-      <HintPath>..\..\PrimusFlex\Data\PrimusFlex.Data\bin\Debug\PrimusFlex.Data.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="PrimusFlex.Data.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\PrimusFlex\Data\PrimusFlex.Data\bin\Debug\PrimusFlex.Data.Models.dll</HintPath>
-    </Reference>
     <Reference Include="PrimusFlex.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\PrimusFlex\PrimusFlex.Web.Infrastructure\bin\Debug\PrimusFlex.Web.Infrastructure.dll</HintPath>
@@ -346,6 +336,23 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\PrimusFlex\Data\PrimusFlex.Data.Common\PrimusFlex.Data.Common.csproj">
+      <Project>{f0f79e55-407e-43d8-b3f0-90d9472f2c50}</Project>
+      <Name>PrimusFlex.Data.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PrimusFlex\Data\PrimusFlex.Data.Models\PrimusFlex.Data.Models.csproj">
+      <Project>{8eba1f0a-bad7-4269-af2e-136b9bb759e6}</Project>
+      <Name>PrimusFlex.Data.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PrimusFlex\Data\PrimusFlex.Data\PrimusFlex.Data.csproj">
+      <Project>{d3188a77-f889-44df-9d12-384f7b6db990}</Project>
+      <Name>PrimusFlex.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

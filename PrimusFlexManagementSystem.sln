@@ -5,6 +5,14 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimusFlex.WebServices", "PrimusFlex.WebServices\PrimusFlex.WebServices.csproj", "{FBD0E734-060C-4639-9A4A-495E3C0C578B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{018B6BAD-58C3-43F3-8367-C7FC8E5CE275}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimusFlex.Data", "..\PrimusFlex\Data\PrimusFlex.Data\PrimusFlex.Data.csproj", "{D3188A77-F889-44DF-9D12-384F7B6DB990}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimusFlex.Data.Common", "..\PrimusFlex\Data\PrimusFlex.Data.Common\PrimusFlex.Data.Common.csproj", "{F0F79E55-407E-43D8-B3F0-90D9472F2C50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimusFlex.Data.Models", "..\PrimusFlex\Data\PrimusFlex.Data.Models\PrimusFlex.Data.Models.csproj", "{8EBA1F0A-BAD7-4269-AF2E-136B9BB759E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +23,25 @@ Global
 		{FBD0E734-060C-4639-9A4A-495E3C0C578B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD0E734-060C-4639-9A4A-495E3C0C578B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD0E734-060C-4639-9A4A-495E3C0C578B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3188A77-F889-44DF-9D12-384F7B6DB990}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3188A77-F889-44DF-9D12-384F7B6DB990}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3188A77-F889-44DF-9D12-384F7B6DB990}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3188A77-F889-44DF-9D12-384F7B6DB990}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0F79E55-407E-43D8-B3F0-90D9472F2C50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0F79E55-407E-43D8-B3F0-90D9472F2C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0F79E55-407E-43D8-B3F0-90D9472F2C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0F79E55-407E-43D8-B3F0-90D9472F2C50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EBA1F0A-BAD7-4269-AF2E-136B9BB759E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EBA1F0A-BAD7-4269-AF2E-136B9BB759E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EBA1F0A-BAD7-4269-AF2E-136B9BB759E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EBA1F0A-BAD7-4269-AF2E-136B9BB759E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D3188A77-F889-44DF-9D12-384F7B6DB990} = {018B6BAD-58C3-43F3-8367-C7FC8E5CE275}
+		{F0F79E55-407E-43D8-B3F0-90D9472F2C50} = {018B6BAD-58C3-43F3-8367-C7FC8E5CE275}
+		{8EBA1F0A-BAD7-4269-AF2E-136B9BB759E6} = {018B6BAD-58C3-43F3-8367-C7FC8E5CE275}
 	EndGlobalSection
 EndGlobal
