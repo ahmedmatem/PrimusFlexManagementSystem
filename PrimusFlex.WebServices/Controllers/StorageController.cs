@@ -19,6 +19,8 @@
     using Common;
     using Models;
     using Web.Infrastructure.Helpers;
+    using ViewModels;
+    using DAL;
 
     [Authorize]
     [RoutePrefix("api/Storage")]
@@ -27,11 +29,37 @@
         protected ApplicationDbContext context = new ApplicationDbContext();
         protected IDbRepository<Image> image;
         protected IDbRepository<Kitchen> kitchen;
+        protected IDbRepository<Site> sites;
 
         public StorageController()
         {
             this.image = new DbRepository<Image>(context);
             this.kitchen = new DbRepository<Kitchen>(context);
+            this.sites = new DbRepository<Site>(context);
+        }
+
+        // Get api/storage/lastKitchenImages
+        [Route("LastKitchenImages")]
+        [HttpGet]
+        public HttpResponseMessage GetLastKitchenImages()
+        {
+            var kitchenDataAccess = new KitchenDataAccess(context);
+            var lastKitchenId = kitchenDataAccess.GetLastKitchenId();
+
+            var imageDataAccess = new ImageDataAccess(context);
+            var lastKitchenImages = imageDataAccess.GetImagesByKitchenId(lastKitchenId);
+
+            List<ImageViewModel> imageUri = new List<ImageViewModel>();
+            foreach (var img in lastKitchenImages)
+            {
+                imageUri.Add(new ImageViewModel
+                {
+                    Uri = img.Uri,
+                    Name = img.Name,
+                });
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, imageUri);
         }
 
         /// <summary>
@@ -80,13 +108,15 @@
         [HttpGet]
         public HttpResponseMessage LastKitchenInfo(string userName)
         {
-            DateTime startDateTime = DateTime.Today; //Today at 00:00:00
-            DateTime endDateTime = DateTime.Today.AddDays(1).AddTicks(-1); //Today at 23:59:59
+            var lastKitchenDate = this.kitchen.All()
+                                .Where(k => k.UserName == userName)
+                                .OrderByDescending(k => k.CreatedOn)
+                                .Select(k => k.CreatedOn)
+                                .FirstOrDefault<DateTime>();
 
             var kitchenInfos = this.kitchen.All()
                                 .Where(k => k.UserName == userName
-                                    && k.CreatedOn >= startDateTime
-                                    && k.CreatedOn <= endDateTime)
+                                    && k.CreatedOn == lastKitchenDate)
                                 .Select(k => new KitchenImageModel()
                                 {
                                     UserName = k.UserName,
@@ -96,12 +126,22 @@
                                     ImageNumber = k.ImageNumber,
                                 })
                                 .ToList();
-            if(kitchenInfos != null)
+
+            if (kitchenInfos != null)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, kitchenInfos);
             }
 
             return Request.CreateResponse(HttpStatusCode.NotFound);
+        }
+
+        // GET: api/storage/getsitelist
+        [Route("GetSiteList")]
+        public List<string> GetSiteList()
+        {
+            return this.sites.All()
+                                .Select(s => s.Name)
+                                .ToList();
         }
 
 
